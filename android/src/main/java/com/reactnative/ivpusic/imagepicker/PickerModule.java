@@ -787,7 +787,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
         if (!path.exists() && !path.isDirectory()) {
             path.mkdirs();
         }
-        File image = new File("wayo-file.jpg", path);
+        File image = new File(path, "wayo-file.jpg");
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentMediaPath = "file:" + image.getAbsolutePath();
 
@@ -803,7 +803,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
             path.mkdirs();
         }
 
-        File video = new File("wayo-file.mp4", path);
+        File video = new File(path, "wayo-file.mp4");
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentMediaPath = "file:" + video.getAbsolutePath();
