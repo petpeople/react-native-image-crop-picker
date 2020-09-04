@@ -494,7 +494,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
 
     private void getVideo(final Activity activity, final String path, final String mime) throws Exception {
         validateVideo(path);
-        final String compressedVideoPath = getTmpDir(activity) + "/wayo-file.mp4";
+        final String compressedVideoPath = getTmpDir(activity) + "/" + UUID.randomUUID().toString() + ".mp4";
 
         new Thread(new Runnable() {
             @Override
@@ -647,7 +647,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
         }
 
         UCrop uCrop = UCrop
-                .of(uri, Uri.fromFile(new File(this.getTmpDir(activity), "wayo-file.jpg")))
+                .of(uri, Uri.fromFile(new File(this.getTmpDir(activity), UUID.randomUUID().toString() + ".jpg")))
                 .withOptions(options);
 
         if (width > 0 && height > 0) {
@@ -783,13 +783,17 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
     }
 
     private File createImageFile() throws IOException {
+
+        String imageFileName = "image-" + UUID.randomUUID().toString();
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
 
         if (!path.exists() && !path.isDirectory()) {
             path.mkdirs();
         }
-        File image = new File(path, "wayo-file.jpg");
+
+        File image = File.createTempFile(imageFileName, ".jpg", path);
+
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentMediaPath = "file:" + image.getAbsolutePath();
 
@@ -798,6 +802,8 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
     }
 
     private File createVideoFile() throws IOException {
+
+        String videoFileName = "video-" + UUID.randomUUID().toString();
         File path = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
 
@@ -805,7 +811,7 @@ class PickerModule extends ReactContextBaseJavaModule implements ActivityEventLi
             path.mkdirs();
         }
 
-        File video = new File(path, "wayo-file.mp4");
+        File video = File.createTempFile(videoFileName, ".mp4", path);
 
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentMediaPath = "file:" + video.getAbsolutePath();
